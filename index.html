@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>샐리네 사주맛집</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf6ee; --paper2:#f3ecdf; --ink:#2b2520; --ink2:#5c534a; --muted:#8b8176;
+    --red:#b23a3a; --red2:#8f2b2b; --gold:#c9a55a; --line:#e3d9c7; --white:#fffdf9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;
+       background-image:radial-gradient(circle at 10% 0%,#fff8ea 0,transparent 40%),radial-gradient(circle at 90% 100%,#f1e4cf 0,transparent 40%)}
+  h1,h2,h3,.serif{font-family:'Gowun Batang',serif}
+  a{color:inherit;text-decoration:none}
+
+  header{position:sticky;top:0;z-index:20;background:rgba(250,246,238,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .nav{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Gowun Batang',serif;font-weight:700;font-size:20px}
+  .logo .seal{width:34px;height:34px;border-radius:8px;background:var(--red);color:#fff;display:grid;place-items:center;font-size:16px;box-shadow:inset 0 0 0 2px #fff3,0 2px 6px #b23a3a55}
+  .nav ul{display:flex;gap:18px;list-style:none;font-size:14px;color:var(--ink2)}
+  .nav ul a:hover{color:var(--red)}
+  @media(max-width:720px){.nav ul{display:none}}
+
+  .hero{max-width:1080px;margin:0 auto;padding:72px 20px 40px;text-align:center}
+  .hero .tag{display:inline-block;font-size:13px;letter-spacing:.2em;color:var(--red);border:1px solid var(--red);border-radius:999px;padding:4px 14px;margin-bottom:18px}
+  .hero h1{font-size:clamp(34px,6vw,60px);line-height:1.25;letter-spacing:-.01em}
+  .hero h1 em{font-style:normal;color:var(--red)}
+  .hero p{margin:18px auto 0;max-width:620px;color:var(--ink2);font-size:16px}
+  .hero .cta{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;transition:.2s;font-family:inherit}
+  .btn.primary{background:var(--red);color:#fff;box-shadow:0 6px 18px #b23a3a33}
+  .btn.primary:hover{background:var(--red2);transform:translateY(-1px)}
+  .btn.ghost{background:transparent;border-color:var(--ink2);color:var(--ink)}
+  .btn.ghost:hover{background:var(--white)}
+  .ohaeng{display:flex;justify-content:center;gap:10px;margin-top:40px;flex-wrap:wrap}
+  .ohaeng span{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-family:'Gowun Batang',serif;font-size:22px;color:#fff;box-shadow:0 4px 12px #0002}
+  .wood{background:#4e7d4a}.fire{background:#c4453a}.earth{background:#c59a3c}.metal{background:#9a9a9a}.water{background:#2f4f7a}
+
+  section.block{max-width:1080px;margin:0 auto;padding:50px 20px}
+  .sec-title{text-align:center;margin-bottom:32px}
+  .sec-title h2{font-size:30px}
+  .sec-title p{color:var(--muted);margin-top:8px;font-size:15px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:24px 22px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+  .card:hover,.card.active{border-color:var(--red);transform:translateY(-3px);box-shadow:0 10px 24px #2b25201a}
+  .card .ico{font-size:30px;margin-bottom:10px}
+  .card h3{font-size:19px;margin-bottom:6px}
+  .card p{font-size:14px;color:var(--ink2)}
+  .card .num{position:absolute;right:16px;top:12px;font-family:'Gowun Batang',serif;color:var(--line);font-size:28px}
+  .card.active .num{color:var(--red)}
+  .card.full{grid-column:1/-1;background:linear-gradient(135deg,#fffdf9,#fbeeee);border-color:#efc9c9}
+  .pdf-wrap{position:absolute;left:-10000px;top:0;width:794px;background:#fff;color:#222;padding:48px 56px;font-family:'Noto Sans KR',sans-serif;font-size:13px;line-height:1.7}
+  .pdf-wrap .pdf-head{border-bottom:3px solid var(--red);padding-bottom:10px;margin-bottom:18px}
+  .pdf-wrap .pdf-head h1{font-size:24px;color:var(--red2);margin:0}
+  .pdf-wrap .pdf-head p{color:#777;font-size:12px;margin:4px 0 0}
+  .pdf-wrap .pdf-foot{margin-top:24px;border-top:1px dashed #ccc;padding-top:8px;font-size:11px;color:#888}
+
+  .form-wrap{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:34px 28px;box-shadow:0 12px 30px #2b252012}
+  .form-wrap h2{font-size:26px;margin-bottom:6px}
+  .form-wrap .sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+  .chosen{display:inline-flex;align-items:center;gap:8px;background:#fbeeee;color:var(--red2);border:1px solid #efc9c9;padding:6px 14px;border-radius:999px;font-size:14px;font-weight:600;margin-bottom:18px}
+  fieldset{border:1px solid var(--line);border-radius:14px;padding:18px 18px 10px;margin-bottom:18px;background:var(--paper)}
+  legend{font-family:'Gowun Batang',serif;font-weight:700;font-size:17px;padding:0 8px;color:var(--ink)}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:10px}
+  label{display:block;font-size:13px;color:var(--ink2);margin-bottom:4px;font-weight:500}
+  input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-family:inherit;font-size:14px;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:2px solid #b23a3a44;border-color:var(--red)}
+  textarea{min-height:90px;resize:vertical}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg label{margin:0}
+  .seg input{display:none}
+  .seg span{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;background:#fff;cursor:pointer;color:var(--ink2)}
+  .seg input:checked+span{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .hint{font-size:12px;color:var(--muted);margin-top:-4px;margin-bottom:8px}
+  .person{border-top:1px dashed var(--line);padding-top:12px;margin-top:6px;position:relative}
+  .person .ptitle{font-weight:600;font-size:14px;color:var(--red2);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .mini{background:transparent;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;color:var(--ink2);font-family:inherit}
+  .mini:hover{border-color:var(--red);color:var(--red)}
+  .hidden{display:none !important}
+  .opt{font-family:'Noto Sans KR',sans-serif;font-size:11px;font-weight:500;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:4px}
+  fieldset.folded > :not(legend){display:none}
+  fieldset.folded{padding-bottom:4px}
+  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .note{font-size:12px;color:var(--muted)}
+  .note.ok{color:#3c7a3c}.note.warn{color:var(--red2);font-weight:500}
+
+  .result{margin-top:28px;background:var(--white);border:1px solid var(--line);border-radius:22px;padding:34px 30px;display:none}
+  .result.show{display:block}
+  .result .rhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;border-bottom:2px solid var(--red);padding-bottom:10px}
+  .result .rhead h2{font-size:24px}
+  .status{font-size:13px;color:var(--muted)}
+  .md{font-size:15px;color:var(--ink)}
+  .md h1,.md h2,.md h3{margin:22px 0 10px;color:var(--red2)}
+  .md h1{font-size:22px}.md h2{font-size:20px}.md h3{font-size:17px;color:var(--ink)}
+  .md p{margin:8px 0}
+  .md ul,.md ol{margin:8px 0 8px 22px}
+  .md table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+  .md th,.md td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  .md th{background:var(--paper2);font-weight:600}
+  .md strong{color:var(--red2)}
+  .md hr{border:0;border-top:1px dashed var(--line);margin:18px 0}
+  .part+.part{border-top:1px dashed var(--line);margin-top:18px;padding-top:6px}
+  .cursor{display:inline-block;width:8px;height:16px;background:var(--red);vertical-align:-2px;animation:blink 1s infinite}
+  @keyframes blink{50%{opacity:0}}
+  .alert{background:#fbeeee;border:1px solid #efc9c9;color:var(--red2);padding:12px 16px;border-radius:12px;font-size:14px;margin-top:14px}
+  .steps{max-width:620px;margin:26px auto 0;text-align:left}
+  .step{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;color:var(--ink2)}
+  .step:last-child{border:0}
+  .step b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:13px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:.3s}
+  .toast.on{opacity:1}
+
+  .about{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center}
+  @media(max-width:760px){.about{grid-template-columns:1fr}}
+  .about .box{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .about ul{list-style:none}
+  .about li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;display:flex;gap:10px}
+  .about li:last-child{border:0}
+  .about li b{color:var(--red);min-width:70px}
+  footer{border-top:1px solid var(--line);padding:30px 20px;text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="logo"><span class="seal">命</span>샐리네 사주맛집</a>
+    <ul>
+      <li><a href="#menu">무엇이 궁금하세요</a></li>
+      <li><a href="#form">풀이 받기</a></li>
+      <li><a href="#about">풀이 방식</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="tag">30년 공부한 명리학, 쉬운 말로</div>
+  <h1>샐리네, <em>사주맛집</em><br>무엇이든 물어보살</h1>
+  <p>아이의 진로, 지나온 과거, 앞으로의 흐름, 부부와 자녀, 팀원과 리더까지.
+     태어난 날의 기운을 어려운 말 없이, 생활에 바로 쓸 수 있게 풀어 드립니다.</p>
+  <div class="cta">
+    <a class="btn primary" href="#menu">궁금한 것 고르기</a>
+    <a class="btn primary" href="https://claude.ai/artifact/6LJvgBNpooTqwBqYqSNyBD" target="_blank" rel="noopener" style="background:var(--ink)">바로 풀이 받기</a>
+    <a class="btn ghost" href="#about">어떻게 풀어주나요?</a>
+  </div>
+  <div class="ohaeng" aria-hidden="true">
+    <span class="wood">木</span><span class="fire">火</span><span class="earth">土</span><span class="metal">金</span><span class="water">水</span>
+  </div>
+</section>
+
+<section class="block" id="menu">
+  <div class="sec-title">
+    <h2>무엇이 궁금하세요?</h2>
+    <p>카드를 누르면 풀이 페이지가 열립니다. (Claude 로그인 필요, 무료 계정 가능)</p>
+  </div>
+  <div class="grid" id="cards">
+    <div class="card" data-topic="child"><span class="num">一</span><div class="ico">🎒</div><h3>아이의 진로도 궁금</h3><p>타고난 기질과 공부 방식, 과목·계열·학과·직업 적성, 고교 선택과 대입 시기 학업운까지 여섯 부분으로 자세히. 본인이 학생이면 본인 진로로</p></div>
+    <div class="card" data-topic="past"><span class="num">二</span><div class="ico">📜</div><h3>과거도 궁금</h3><p>지나온 시기 중 사주상 중요했던 고비와 그 의미를 실제 있었던 일과 맞춰 봅니다</p></div>
+    <div class="card" data-topic="future"><span class="num">三</span><div class="ico">🧭</div><h3>앞으로도 궁금</h3><p>10년 단위 큰 흐름과 향후 5년 연도별 운, 올해 당장 도움이 되는 행동</p></div>
+    <div class="card" data-topic="couple"><span class="num">四</span><div class="ico">💍</div><h3>부부 궁합도 궁금</h3><p>배우자·연인과 나의 기운 관계, 돈·대화·자녀·양가 등 영역별 패턴, 갈등 시나리오와 해결까지 다섯 부분으로. 상대가 없으면 내 배우자운·인연운</p></div>
+    <div class="card" data-topic="siblings"><span class="num">五</span><div class="ico">👧👦</div><h3>자녀들끼리 궁합도 궁금</h3><p>다자녀면 자녀별 기질과 형제 궁합·양육 포인트, 외동이면 부모와 자녀의 궁합과 양육 태도. 자녀 정보가 없으면 내 자녀운</p></div>
+    <div class="card" data-topic="staff"><span class="num">六</span><div class="ico">🤝</div><h3>팀원들과의 궁합</h3><p>함께 일하는 사람과 나의 궁합, 일 맡기는 방식과 소통 포인트. 팀원 정보가 없으면 내 직장 인간관계운</p></div>
+    <div class="card" data-topic="leader"><span class="num">七</span><div class="ico">👑</div><h3>리더와의 궁합</h3><p>상사·대표와 나의 기운 관계, 신뢰를 얻고 마찰을 줄이는 방법. 리더 정보가 없으면 내 상사운</p></div>
+    <div class="card" data-topic="any"><span class="num">八</span><div class="ico">🔮</div><h3>무엇이든 물어보살</h3><p>이사, 이직, 건강, 재물, 결혼 시기 등 궁금한 것을 자유롭게 물어보세요</p></div>
+    <div class="card full" data-topic="all"><span class="num">九</span><div class="ico">📖</div><h3>전체 종합 풀이</h3><p>원국 정리부터 성격·진로·대운·과거·향후 5년·종합까지 7단계 전부를 가장 자세하게 (A4 7~9장 분량, 다섯 부분으로 나누어 작성)</p></div>
+  </div>
+</section>
+
+<section class="block" id="form">
+  <div class="form-wrap" style="text-align:center">
+    <h2>풀이 받으러 가기</h2>
+    <p class="sub">풀이는 샐리네 사주맛집의 Claude 페이지에서 만들어집니다. 아래 버튼을 누르면 그 페이지로 이동합니다.</p>
+    <a class="btn primary" id="goBtn" href="https://claude.ai/artifact/6LJvgBNpooTqwBqYqSNyBD" target="_blank" rel="noopener" style="font-size:17px;padding:16px 34px">🔮 풀이 받으러 가기</a>
+    <div class="steps">
+      <div class="step"><b>1</b><span>Claude(claude.ai)에 로그인합니다. 계정이 없으면 무료로 가입하면 됩니다.</span></div>
+      <div class="step"><b>2</b><span>위 버튼으로 이동해 궁금한 카드를 고르고, 내 정보(생년월일·태어난 시간·태어난 곳)를 넣습니다. 나머지는 선택 사항입니다.</span></div>
+      <div class="step"><b>3</b><span>"풀이 받기"를 누르면 "허용" 창이 한 번 뜹니다. 허용하면 5~10분에 걸쳐 풀이가 차례로 작성됩니다.</span></div>
+      <div class="step"><b>4</b><span>끝나면 "PDF 저장" 버튼으로 내려받아 보관할 수 있습니다.</span></div>
+    </div>
+    <p class="note" style="margin-top:14px">풀이는 참고용입니다. 결정은 늘 본인의 몫입니다. 입력한 정보는 풀이를 만드는 데만 쓰이며 저장되지 않습니다.</p>
+  </div>
+</section>
+
+<section class="block" id="about">
+  <div class="sec-title"><h2>이렇게 풀어 드립니다</h2><p>좋은 말만 늘어놓지 않습니다. 약한 부분도 분명하게, 대신 쉬운 말로.</p></div>
+  <div class="about">
+    <div class="box">
+      <ul>
+        <li><b>준비</b>만세력 계산 — 절기와 출생 시각을 기준으로 네 기둥과 대운을 정확히 뽑습니다</li>
+        <li><b>1단계</b>사주 원국 정리 — 네 기둥을 표로, 오행 분포와 강약, 도움이 되는 기운과 피할 기운</li>
+        <li><b>2단계</b>타고난 성격과 기질 — 장점 3가지, 주의할 점 3가지</li>
+        <li><b>3단계</b>학업·진로·직업 적성 — 공부 방식, 계열 순위, 추천 학과·직업 5개</li>
+        <li><b>4단계</b>나이대별 삶의 흐름 — 10년 단위 대운</li>
+        <li><b>5단계</b>과거 돌아보기 — 알려주신 사실과 맞춰 봅니다</li>
+        <li><b>6단계</b>향후 5년 연도별 운과 올해 할 일 3가지</li>
+        <li><b>7단계</b>종합 — 한 문장 요약, 좋은 시기 2개, 조심할 시기 2개</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="font-size:20px;margin-bottom:10px">샐리네 약속</h3>
+      <p style="font-size:14px;color:var(--ink2)">전문 용어가 나오면 괄호 안에 쉬운 말을 함께 적습니다. 단정하지 않고 "이런 흐름이 강하다"는 식으로 말합니다. 확신이 낮은 부분은 "추정"이라고 표시합니다. 궁합은 누가 좋고 나쁘다가 아니라, 서로 어떻게 맞춰 가면 되는지를 봅니다.</p>
+      <p style="font-size:13px;color:var(--muted);margin-top:14px">입력한 정보는 풀이를 만드는 데만 쓰이며 이 페이지에 저장되지 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<footer>© 샐리네 사주맛집 · 무엇이든 물어보살</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const ART='https://claude.ai/artifact/6LJvgBNpooTqwBqYqSNyBD';
+  document.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>{window.open(ART+'#'+c.dataset.topic,'_blank','noopener');}));
+})();
+</script>
+</body>
+</html>
